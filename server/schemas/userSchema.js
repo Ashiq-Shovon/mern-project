@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-    userId:{
-        type:Number,
-        required:true,
-    },
+    // userId:{
+    //     type:Number,
+    //     required:true,
+    // },
     firstName:{
         type:String,
         required:true
@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    email: String,
     address:{
         type:String,
         required:true
@@ -21,15 +22,24 @@ const userSchema = mongoose.Schema({
         type:Number,
         required:true
     },
-    email: String,
+    password:{
+        type:String,
+        required:true
+    },
+    retypePass:{
+        type:String,
+        required:true
+    },
     status:{
         type:String,
         enum:['active', 'inactive']
     },
-    date:{
-        type:Date,
-        default:Date.now
-    }
+    // dateOfBirth:{
+    //     type:Date,
+    //     default:Date.now
+    // },
+    order:number
+
 });
 
 module.exports = userSchema;
