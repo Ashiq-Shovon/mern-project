@@ -13,8 +13,9 @@ exports.User = async (req,res) =>{
 }
 
 exports.userCreate = async (req, res) => {
+    
     const newUser = new user(req.body);
-    await user.save((err) => {
+    await newUser.save((err) => {
         if(err){
             res.status(500).json({
                 error:"There was a server side error",
