@@ -9,5 +9,5 @@ var userMiddle = require('../middleware/middle.js');
 
 /* GET users listing. */
 router.get('/',userMiddle.middle, userController.User);
-
+router.post('/', userController.userCreate);
 module.exports = router;

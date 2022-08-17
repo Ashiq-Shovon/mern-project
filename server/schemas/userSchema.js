@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema({
     //     type:Date,
     //     default:Date.now
     // },
-    order:number
+    order:Number
 
 });
 
