@@ -3,11 +3,49 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import DatePicker from 'tailwind-react-datepicker'
 import { ExclamationIcon } from '@heroicons/react/outline'
+import axios from 'axios'
 
 export default function AddUser() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
 
-  const cancelButtonRef = useRef(null)
+  const [userData, setUserData] = new useState({
+    firstName: "",
+    lastName: "",
+    email:"",
+    address:"",
+    mobileNumber:0,
+    password:"",
+    retypePass:"",
+    status:"",
+    order:0
+
+});
+
+const inputHandle = (e) => {
+
+    const { name, value } = e.target;
+    setUserData((preVal) => {
+        // console.log(e.target.type);
+        const history = {
+            ...preVal,
+            [name]: value
+        };
+        console.log(history);
+        return {
+            ...preVal,
+            [name]: value
+        }
+
+    });
+}
+const handleSubmit = () =>{
+  axios.post('http://localhost:3001/users', userData).
+  then((res)=> console.log(res)).
+  catch( (error) => {
+    console.log(error);
+  });
+}
 
   return (
     <>
@@ -57,14 +95,14 @@ export default function AddUser() {
                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
                                 First Name
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane" />
+                              <input name='firstName' onChange={inputHandle}  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane" />
                               <p className="text-red-500 text-xs italic">Please fill out this field.</p>
                             </div>
                             <div className="w-full md:w-1/2 px-3">
-                              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                              <label  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
                                 Last Name
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe" />
+                              <input name='lastName' onChange={inputHandle} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe" />
                             </div>
                           </div>
                           <div className="flex flex-wrap -mx-3 mb-6">
@@ -72,7 +110,7 @@ export default function AddUser() {
                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-email">
                                 Email
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-email" type="text" placeholder="example@gmail.com" />
+                              <input name='email' onChange={inputHandle} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-email" type="text" placeholder="example@gmail.com" />
                               <p className="text-gray-600 text-xs italic">Enter your email address</p>
                             </div>
                             
@@ -82,7 +120,7 @@ export default function AddUser() {
                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-address">
                                 Address
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-address" type="text" placeholder="Enter your home address" />
+                              <input name='address' onChange={inputHandle} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-address" type="text" placeholder="Enter your home address" />
                               <p className="text-gray-600 text-xs italic">Enter flat, house number, road number</p>
                             </div>
                             
@@ -100,7 +138,7 @@ export default function AddUser() {
                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-phone">
                                 Phone
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-phone" type="number" placeholder="Enter your mobile number" />
+                              <input name='mobileNumber' onChange={inputHandle} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-phone" type="number" placeholder="Enter your mobile number" />
                               <p className="text-gray-600 text-xs italic">example: 01739339367</p>
                             </div>
                             
@@ -111,7 +149,7 @@ export default function AddUser() {
                                 Status
                               </label>
                               <div className="relative  mb-3">
-                                <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-status">
+                                <select name='status' onChange={inputHandle} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-status">
                                   <option>active</option>
                                   <option>inactive</option>
                                 </select>
@@ -125,7 +163,7 @@ export default function AddUser() {
                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-order">
                                 Order
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-order" type="number" placeholder="" />
+                              <input name='order' onChange={inputHandle} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-order" type="number" placeholder="" />
                               <p className="text-gray-600 text-xs italic">place your number of order</p>
                             </div>
                           </div>
@@ -134,14 +172,14 @@ export default function AddUser() {
                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
                                 Password
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" />
+                              <input name='password' onChange={inputHandle} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" />
                               <p className="text-gray-600 text-xs italic">Enter your password</p>
                             </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-retype-password">
                                 Retype Password
                               </label>
-                              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-retype-password" type="password" placeholder="******************" />
+                              <input name='retypePass' onChange={inputHandle} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-retype-password" type="password" placeholder="******************" />
                               <p className="text-gray-600 text-xs italic">Retype your password</p>
                             </div>
                           </div>
@@ -186,15 +224,15 @@ export default function AddUser() {
                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={() => setOpen(false)}
                   >
-                    Deactivate
+                    Cancel
                   </button>
                   <button
                     type="button"
                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={handleSubmit}
                     ref={cancelButtonRef}
                   >
-                    Cancel
+                    Submit
                   </button>
                 </div>
               </Dialog.Panel>
