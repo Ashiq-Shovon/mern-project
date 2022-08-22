@@ -11,13 +11,13 @@ import {
 const Spa = () => {
   return (
     <div>
-        <TopBar />
+        
           
-            
+        <TopBar />
             
             <div className='columns-2 flex'>
           
-        
+            
         
         <BrowserRouter>
         <SideNav />

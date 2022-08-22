@@ -2,9 +2,9 @@ import React from 'react'
 
 const TopBar = () => {
   return (
-    <div className=' bg-black relative'>
-            <h1 className=''>topbar</h1>
-        </div>
+    <div className=' flex justify-stretch bg-gray-200 h-[5rem] min-w-full'>
+           
+    </div>
   )
 }
 
